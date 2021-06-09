@@ -10,4 +10,8 @@ router.get("/user", async (req, res) => {
     userMgr.createUser(res, req.param("login"), req.param("password"), req.param("name"));
 })
 
+router.post("/user", async (req, res) => {
+    userMgr.createUser(res, req.body.login, req.body.password, req.body.name);
+})
+
 module.exports = router
