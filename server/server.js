@@ -1,15 +1,25 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const mongo = require('mongoose');
+const routes = require("./routes")
 const port = 3001;
 
-app.get('/api/*', (req,res) => {
-    res.send(`Hello WOrld:${req}`);
-});
+const sDbURI = 'mongodb://localhost/test';
+mongo.connect(sDbURI, {useNewUrlParser: true, useUnifiedTopology: true});
+const db = mongo.connection;
+db.on('error', console.error.bind(console, 'connection error'));
+
+db.once('open', () => {
+
+app.use(express.json());
+app.use('/api', routes);
 
 app.use('/poc', express.static(path.join(__dirname, '../poc'))); 
 app.use('/', express.static(path.join(__dirname, '../www/build'))); 
 
 app.listen(port, () => {
     console.log(`Server start at ${port}`);
+});
+
 });
