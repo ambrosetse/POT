@@ -12,7 +12,7 @@ module.exports = {
         res.send(users);
     },
     login: async (res, sLogin, sPassword) => {
-        
+        res.send("[]");
     },
     createUser: async (res, sLogin, sPassword, sName) => {
         const user = new User({
