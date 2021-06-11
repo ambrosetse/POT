@@ -14,4 +14,8 @@ router.post("/user", async (req, res) => {
     userMgr.createUser(res, req.body.login, req.body.password, req.body.name);
 })
 
+router.post("/login", async (req, res) => {
+    userMgr.login(res, req.body.login, req.body.password);
+})
+
 module.exports = router
