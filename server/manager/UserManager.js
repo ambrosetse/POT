@@ -11,6 +11,9 @@ module.exports = {
         const users = await User.find();
         res.send(users);
     },
+    login: async (res, sLogin, sPassword) => {
+        
+    },
     createUser: async (res, sLogin, sPassword, sName) => {
         const user = new User({
             login: sLogin,
