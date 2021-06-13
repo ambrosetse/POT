@@ -30,30 +30,31 @@ const Login = () => {
         <Container maxWidth="sm">
           <Formik
             initialValues={{
-              email: '',
+              login: '',
               password: ''
             }}
             validationSchema={Yup.object().shape({
-              email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+              login: Yup.string().max(255).required('Login is required'),
               password: Yup.string().max(255).required('Password is required')
             })}
             onSubmit={(values) => {
-              alert(JSON.stringify(values, null, 2)); // eslint-disable-line no-alert
               const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(values)
               };
               fetch('http://192.168.1.188:3001/api/login', requestOptions)
-                .then((response) => {
-                  alert(response); // eslint-disable-line no-alert
+                .then((response) => response.json())
+                .then((data) => {
+                  alert(JSON.stringify(data)); // eslint-disable-line no-alert
+                  alert(JSON.stringify(Yup)); // eslint-disable-line no-alert
+                  if (data.result) {
+                    navigate('/app/dashboard', { replace: true });
+                  }
                 })
                 .catch((error) => {
                   alert(error.toString()); // eslint-disable-line no-alert
                 });
-              if (false) {
-                navigate('/app/dashboard', { replace: true });
-              }
             }}
           >
             {({
@@ -81,31 +82,17 @@ const Login = () => {
                     Sign in on the internal platform
                   </Typography>
                 </Box>
-                <Box
-                  sx={{
-                    pb: 1,
-                    pt: 3
-                  }}
-                >
-                  <Typography
-                    align="center"
-                    color="textSecondary"
-                    variant="body1"
-                  >
-                    by email address
-                  </Typography>
-                </Box>
                 <TextField
-                  error={Boolean(touched.email && errors.email)}
+                  error={Boolean(touched.login && errors.login)}
                   fullWidth
-                  helperText={touched.email && errors.email}
-                  label="Email Address"
+                  helperText={touched.login && errors.login}
+                  label="Login ID"
                   margin="normal"
-                  name="email"
+                  name="login"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  type="email"
-                  value={values.email}
+                  type="text"
+                  value={values.login}
                   variant="outlined"
                 />
                 <TextField

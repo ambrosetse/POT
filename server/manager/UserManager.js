@@ -5,16 +5,23 @@ const passphrase = "123qwe";
 
 module.exports = {
     encryptPwd: (sInPwd) => {
-        return CryptoJS.AES.encrypt(sInPwd, passphrase).toString();
+        return CryptoJS.HmacSHA512(sInPwd, passphrase).toString();
     },
     getAllUsers: async (res) => {
         const users = await User.find();
         res.send(users);
     },
     login: async (res, sLogin, sPassword) => {
-        console.log(sLogin);
-        console.log(sPassword);
-        res.send("[]");
+        objRet = {"result":false,"message":"Null object"};
+        const users = await User.find({"login":sLogin});
+        objRet.message = "User not exists";
+        if (users.length == 1) {
+            if (module.exports.encryptPwd(sPassword) == users[0].password) {
+                objRet.message = "Login success";
+                objRet.result = true;
+            }
+        }
+        res.send(JSON.stringify(objRet));
     },
     createUser: async (res, sLogin, sPassword, sName) => {
         const user = new User({
