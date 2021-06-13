@@ -12,6 +12,8 @@ module.exports = {
         res.send(users);
     },
     login: async (res, sLogin, sPassword) => {
+        console.log(sLogin);
+        console.log(sPassword);
         res.send("[]");
     },
     createUser: async (res, sLogin, sPassword, sName) => {

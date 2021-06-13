@@ -15,7 +15,7 @@ router.post("/user", async (req, res) => {
 })
 
 router.post("/login", async (req, res) => {
-    userMgr.login(res, req.body.login, req.body.password);
+    userMgr.login(res, req.body.email, req.body.password);
 })
 
 module.exports = router
