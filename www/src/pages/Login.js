@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -12,7 +13,7 @@ import {
 
 const Login = () => {
   const navigate = useNavigate();
-
+  const [login, changeLogin] = useState(false);
   return (
     <>
       <Helmet>
@@ -49,6 +50,9 @@ const Login = () => {
                   alert(JSON.stringify(data)); // eslint-disable-line no-alert
                   alert(JSON.stringify(Yup)); // eslint-disable-line no-alert
                   if (data.result) {
+                    changeLogin(true);
+                    alert(JSON.stringify(login)); // eslint-disable-line no-alert
+                    alert(useState('login')); // eslint-disable-line no-alert
                     navigate('/app/dashboard', { replace: true });
                   }
                 })

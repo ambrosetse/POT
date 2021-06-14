@@ -12,13 +12,14 @@ module.exports = {
         res.send(users);
     },
     login: async (res, sLogin, sPassword) => {
-        objRet = {"result":false,"message":"Null object"};
+        objRet = {"result":false,"message":"Null object","data":""};
         const users = await User.find({"login":sLogin});
         objRet.message = "User not exists";
         if (users.length == 1) {
             if (module.exports.encryptPwd(sPassword) == users[0].password) {
                 objRet.message = "Login success";
                 objRet.result = true;
+                objRet.data = users[0];
             }
         }
         res.send(JSON.stringify(objRet));
