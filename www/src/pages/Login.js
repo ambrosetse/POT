@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import RootContext from 'src/context/RootContext';
+import { useContext } from 'react';
 import { Helmet } from 'react-helmet';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -13,7 +14,7 @@ import {
 
 const Login = () => {
   const navigate = useNavigate();
-  const [login, changeLogin] = useState(false);
+  const data = useContext(RootContext);
   return (
     <>
       <Helmet>
@@ -44,17 +45,15 @@ const Login = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(values)
               };
-              fetch('http://192.168.1.188:3001/api/login', requestOptions)
+              fetch('http://10.95.71.207:3001/api/login', requestOptions)
                 .then((response) => response.json())
-                .then((data) => {
-                  alert(JSON.stringify(data)); // eslint-disable-line no-alert
-                  alert(JSON.stringify(Yup)); // eslint-disable-line no-alert
-                  if (data.result) {
-                    changeLogin(true);
-                    alert(JSON.stringify(login)); // eslint-disable-line no-alert
-                    alert(useState('login')); // eslint-disable-line no-alert
-                    navigate('/app/dashboard', { replace: true });
+                .then((jsonData) => {
+                  if (jsonData.result) {
+                    data.isLogin = true;
+                  } else {
+                    data.isLogin = false;
                   }
+                  navigate('/app/dashboard', { replace: true });
                 })
                 .catch((error) => {
                   alert(error.toString()); // eslint-disable-line no-alert
