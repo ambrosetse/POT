@@ -45,11 +45,13 @@ const Login = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(values)
               };
-              fetch('http://10.95.71.207:3001/api/login', requestOptions)
+              const sURL = 'http://__SERVER__:3001/api/login';
+              fetch(sURL.replace('__SERVER__', window.location.hostname), requestOptions)
                 .then((response) => response.json())
                 .then((jsonData) => {
                   if (jsonData.result) {
                     data.isLogin = true;
+                    data.objUser = jsonData.data;
                   } else {
                     data.isLogin = false;
                   }

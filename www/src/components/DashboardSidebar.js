@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import RootContext from 'src/context/RootContext';
 import {
   Avatar,
   Box,
@@ -73,6 +74,7 @@ const items = [
 
 const DashboardSidebar = ({ onMobileClose, openMobile }) => {
   const location = useLocation();
+  const data = useContext(RootContext);
 
   useEffect(() => {
     if (openMobile && onMobileClose) {
@@ -110,7 +112,7 @@ const DashboardSidebar = ({ onMobileClose, openMobile }) => {
           color="textPrimary"
           variant="h5"
         >
-          {user.name}
+          {data.objUser.name}
         </Typography>
         <Typography
           color="textSecondary"
